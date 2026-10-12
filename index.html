@@ -422,7 +422,25 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   transition: background .18s var(--ease);
 }
 .cut__btn::-webkit-details-marker { display: none; }
-.cut__btn:hover { background: var(--dolyame-green-2); }
+/* «Показать примеры»: та же лёгкая анимация, что у кнопок заявки — всплытие, мягкая тень, один световой блик;
+   плюс в кружке поворачивается (раскрыть), минус приподнимается (свернуть). */
+.cut__btn { position: relative; overflow: hidden; isolation: isolate;
+  transition: transform .6s var(--spring), box-shadow .6s var(--spring), background .6s var(--spring), border-color .6s var(--spring); }
+.cut__btn::before {
+  content: ""; position: absolute; inset: -20% auto -20% 0; width: 45%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, rgb(190 244 229 / 0), rgb(190 244 229 / .95) 50%, rgb(190 244 229 / 0));
+  transform: translateX(-130%) skewX(-12deg); opacity: 0;
+}
+.cut__icon { transition: transform .6s var(--spring), background .4s var(--spring); }
+.cut__icon::after { transition: opacity .3s var(--spring); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cut__btn:hover { transform: translateY(-2px); border-color: transparent; box-shadow: 0 0 0 1.5px var(--dolyame-black), 0 16px 30px -18px rgb(111 173 170 / .9), 0 3px 8px -4px rgb(111 173 170 / .35); }
+  .cut__btn:hover::before { opacity: 1; transform: translateX(260%) skewX(-12deg); transition: transform 1.1s var(--spring), opacity .3s ease-out; }
+  .cut__btn:hover .cut__icon { transform: rotate(90deg); background: var(--dolyame-white); box-shadow: 0 0 0 1px var(--c-line); }
+  .cut[open] .cut__btn:hover .cut__icon { transform: translateY(-2px); }
+  .cut__btn:active { transform: translateY(0) scale(.98); }
+}
+@media (hover: none), (prefers-reduced-motion: reduce) { .cut__btn:hover { background: var(--dolyame-green-2); } }
 .cut__hide, .cut[open] .cut__show { display: none; }
 .cut[open] .cut__hide { display: inline; }
 .cut__icon { position: relative; width: 28px; height: 28px; border-radius: 50%; background: var(--dolyame-green-2); }
@@ -904,7 +922,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
             <p class="hero__lead reveal">Чтобы чек рос, а&nbsp;покупатели возвращались, они должны увидеть возможность оплаты частями заранее&nbsp;- в&nbsp;карточке товара, а&nbsp;не&nbsp;на&nbsp;последнем шаге.</p>
             <p class="hero__note reveal"><b>Самим ничего разрабатывать не&nbsp;нужно.</b> Мы предоставим готовое решение и&nbsp;поможем с&nbsp;подключением.</p>
             <div class="hero__actions reveal">
-              <a class="cta cta--lg cta--apply" data-cta href="#apply"><span class="cta__label">Оставить заявку на&nbsp;интеграцию</span><span class="cta__icon" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+              <a class="cta cta--apply" data-cta href="#apply"><span class="cta__label">Оставить заявку на&nbsp;интеграцию</span><span class="cta__icon" aria-hidden="true"><svg viewBox="0 0 16 16" width="14" height="14"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
               <a class="text-link" href="#examples" data-scroll>Как это выглядит<span class="text-link__arrow" aria-hidden="true">↓</span></a>
             </div>
           </div>
